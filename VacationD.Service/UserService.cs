@@ -10,15 +10,24 @@ using VacationD.Core.Services;
 namespace VacationD.Service
 {
     public class UserService : IUserService
+
     {
         private readonly IUserRepository _userRepository;
-
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
+        public async Task<User> AddAsync(User user)
+        {
+            return await _userRepository.AddAsync(user);
+        }
 
-        public List<User> GetList()
+        public void Delete(int id)
+        {
+            _userRepository.Delete(id);
+        }
+
+        public IEnumerable<User> GetAll()
         {
             return _userRepository.GetAll();
         }
@@ -28,9 +37,9 @@ namespace VacationD.Service
             return _userRepository.GetById(id);
         }
 
-        public User Add(User user)
+        public List<User> GetList()
         {
-            return _userRepository.Add(user);
+            return _userRepository.GetList();
         }
 
         public User Update(User user)
@@ -38,9 +47,9 @@ namespace VacationD.Service
             return _userRepository.Update(user);
         }
 
-        public void Delete(int id)
+        IEnumerable<object> IUserService.GetAll()
         {
-            _userRepository.Delete(id);
+            throw new NotImplementedException();
         }
     }
 }

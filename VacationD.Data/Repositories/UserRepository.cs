@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,42 +18,67 @@ namespace VacationD.Data.Repositories
             _context = context;
         }
 
-        public List<User> GetAll()
+        public IEnumerable<User> GetAll()
         {
             return (List<User>)_context.User;
         }
 
-        public User? GetById(int id)
+        public async Task<User> GetByIdAsync(int id)
         {
-            return _context.Users.FirstOrDefault(x => x.id == id);
+            return await _context.Users.FindAsync(id);
         }
-
-        public User Add(User user)
+        public async Task <User> AddAsync(User user)
         {
             _context.Users.Add(user);
+           await _context .SaveChangesAsync();
             return user;
         }
 
         public User Update(User user)
         {
-            var existingUser = GetById(user.id);
-            if (existingUser is null)
-            {
-                throw new Exception("User not found");
-            }
-            existingUser.name = user.name;
-            existingUser.email = user.email;
-            return existingUser;
+            var idUser = (user.id);
+            user.name= user.name;
+            user.email = user.email;
+            return user;
         }
 
         public void Delete(int id)
         {
-            var existingUser = GetById(id);
-            if (existingUser is not null)
+            var user = GetById(id);
+            if (user is not null)
             {
-                _context.Users.Remove(existingUser);
+                _context.Users.Remove(user);
             }
         }
-    }
+        public IEnumerable<User> GetList()
+        {
+            return _context.Users.Include(u => u.Vacations);
+        }
 
+        List<User> IUserRepository.GetList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public User GetUserById(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User? GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<User> GetUserByIdAsync(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IUserRepository.GetByIdAsync(int userId)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
 }

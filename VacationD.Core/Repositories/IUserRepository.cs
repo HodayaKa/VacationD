@@ -9,14 +9,17 @@ namespace VacationD.Core.Repositories
 {
     public interface IUserRepository
     {
-        List<User> GetAll();
+        IEnumerable<User> GetAll();
 
         User? GetById(int id);
 
-        User Add(User user);
+        Task<User> AddAsync(User user);
 
         User Update(User user);
 
         void Delete(int id);
+        List<User> GetList();
+        Task<User> GetUserByIdAsync(int userId);
+        Task GetByIdAsync(int userId);
     }
 }

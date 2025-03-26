@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using VacationD.Api.Models;
+using VacationD.Core;
+using VacationD.Core.DTOs;
 using VacationD.Core.Entities;
 using VacationD.Core.Services;
 
@@ -11,18 +16,24 @@ namespace VacationD.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UsersController(IUserService userService)
+        //private readonly Mapping _mapping;
+        private readonly IMapper mapper;
+               public UsersController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
+
         }
 
         // GET: api/<UsersController>
         [HttpGet]
         public ActionResult Get()
         {
-            var users = _userService.GetList();
-            return Ok(users);
+            var list = _userService.GetAll();
+            var listDto = _mapper.Map<IEnumerable<UserDto>>(list);
+            return Ok(listDto);
         }
 
         // GET api/<UsersController>/5
@@ -30,14 +41,16 @@ namespace VacationD.Api.Controllers
         public ActionResult Get(int id)
         {
             var user = _userService.GetById(id);
-            return Ok(user);
+            //var userDto = _mapping.MapToUserDto(user);
+              var userDto = _mapper.Map<UserDto>(user);
+            return Ok(userDto);
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public ActionResult Post([FromBody] User user)
-        {
-            var newUser = _userService.Add(user);
+        public async Task< ActionResult> Post([FromBody] UserPostModel user)
+        {var userToAdd=new User { name = user.name, email = user.email, password = user.password, role = user.role, VacationId = user.VacationId,};
+            var newUser =await _userService.AddAsync(userToAdd);
             return Ok(newUser);
         }
 
@@ -58,3 +71,4 @@ namespace VacationD.Api.Controllers
         }
     }
 }
+ 

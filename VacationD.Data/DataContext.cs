@@ -15,7 +15,7 @@ namespace VacationD.Data
         {
         }
         public DbSet<User> Users { get; set; }
-        public object User { get; internal set; }
+        public List<User> User { get; internal set; }
     }
    
 

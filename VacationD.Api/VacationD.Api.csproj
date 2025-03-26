@@ -4,9 +4,24 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>e1101e74-ecf3-4827-ae68-df59b112f2c2</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Properties\Production .json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Properties\Production .json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,6 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\VacationD.Core\VacationD.Core.csproj" />
     <ProjectReference Include="..\VacationD.Data\VacationD.Data.csproj" />
+    <ProjectReference Include="..\VacationD.Service\VacationD.Service.csproj" />
   </ItemGroup>
 
 </Project>

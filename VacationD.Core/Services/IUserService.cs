@@ -13,11 +13,14 @@ namespace VacationD.Core.Services
 
         User? GetById(int id);
 
-        User Add(User user);
+        Task<User> AddAsync(User user);
 
         User Update(User user);
 
         void Delete(int id);
+        IEnumerable<object> GetAll();
+        Task<User> GetByIdAsync(int id);
+        Task<double> GetTotalWorkedHoursAsync(int userId, DateTime dateTime1, DateTime dateTime2);
     }
 
 }

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using VacationD.Core.Entities;
 
-namespace VacationD.Core.Entities
+namespace VacationD.Core.DTOs
 {
-    public class User
+    public class UserDto
     {
         public string name { get; set; }
         public int id { get; set; }
@@ -19,5 +19,4 @@ namespace VacationD.Core.Entities
         private WorkingHours workingHours { get; set; }
 
     }
-
 }
